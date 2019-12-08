@@ -66,13 +66,7 @@ export class TransversalComponent implements OnInit {
   		this.socArr.push({level: i, colB: this.colB, colH: this.colH});
   		this.windLKN.push({level: i, wKN: this.wLKN});
   		this.windRKN.push({level: i, wKN: this.wRKN});
-  		
-  		this.colB = this.colB + 50;
-  		this.colH = this.colH + 50;
   	}
-
-  	this.colB = this.colB - 50;
-  	this.colH = this.colH - 50;
 
   	// Floor Specs
   	for (var y = 0; y < this.nStorey+1; y++) {

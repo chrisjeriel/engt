@@ -6,9 +6,8 @@ import { TransversalComponent } from './transversal/transversal.component';
 
 const appRoutes: Routes = [
 	
-	{ path: '', component: DetailsComponent },
 	{ path: 'factormethod', component: TransversalComponent },
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: 'factormethod' }
 
 ];
 export const routing = RouterModule.forRoot(appRoutes);
