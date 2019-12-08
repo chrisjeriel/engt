@@ -1,0 +1,26 @@
+td span {
+	font-size: 15px;
+	font-weight: 500;
+	vertical-align: middle;
+	float: right;
+}
+
+td {
+	padding-right: 0;
+}
+
+.left-input {
+	text-align: right;
+	padding: 0px;
+	padding-right: 5px;
+	border-right: 0px;
+	border-bottom: 0px;
+	border-top: 2px solid black;
+}
+
+span.label-top-outside {
+	position: absolute;
+	top: -13px;
+    font-size: 18px;
+    font-weight: 600;
+}

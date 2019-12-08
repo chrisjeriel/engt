@@ -1,0 +1,513 @@
+<style type="text/css">
+	p {
+	    display: block;
+	    margin-block-start: 0px !important;
+	    margin-block-end: 0px !important;
+	    margin-inline-start: 0px !important;
+	    margin-inline-end: 0px !important;
+	}
+
+	td {
+		padding: 0px;
+	}
+
+	td span {
+		vertical-align: middle;
+	}
+
+	input[type=text], input[type=number], textarea {
+		background-color: #9ecdff42;
+	}
+
+</style>
+<div class="row" style="padding:0px; padding-left: 15px; padding-right: 15px; margin-bottom: 10px;">
+	<h4 class="text-center" style="width: 100%; background-color: #007bff61; padding: 10px; margin: 0px; border-bottom: 1px solid black; border-top: 1px solid black;">Frame Diagram</h4>
+</div>
+<div class="row">
+	<div class="col-sm-4">
+		<table class="table table-striped">
+		  <tbody>
+		  <tr>
+		    <td>
+		      <span style="padding-top: 3px;">#Storey:</span>
+		    </td>
+		    <td>
+		      <input type="number" style="width: 100%;" class="text-right" [ngModel]="nStorey" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="nStorey = $event" />
+		    </td>
+		    <td>
+		      <span style="padding-top: 3px;">Height(mm):</span>
+		    </td>
+		    <td>
+		      <input type="number" style="width: 100%;" class="text-right" [ngModel]="nsHeight" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="nsHeight = $event" />
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <span style="padding-top: 3px;">#Column:</span>
+		    </td>
+		    <td>
+		      <input type="number" style="width: 100%;" class="text-right" [ngModel]="nColumn" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="nColumn = $event"/>
+		    </td>
+		    <td>
+		      <span style="padding-top: 3px;">Span(mm):</span>
+		    </td>
+		    <td>
+		      <input type="number" style="width: 100%;" class="text-right" [ngModel]="ncSpan" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="ncSpan = $event"/>
+		    </td>
+		  </tr>
+		  </tbody>
+		  
+		</table>
+	</div>
+	<div class="col-sm-4">
+		<table class="table table-striped">
+		  <tbody>
+		  
+		  <tr>
+		    <td>
+		      <span style="padding-top: 3px;">Beam B(m):</span>
+		    </td>
+		    <td>
+		      <input type="number" class="text-right" [ngModel]="beamB | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="beamB = $event"/>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <span style="padding-top: 3px;">Beam H(m):</span>
+		    </td>
+		    <td>
+		      <input type="number" class="text-right" [ngModel]="beamH | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="beamH = $event" />
+		    </td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div>
+	<div class="col-sm-4">
+		<table class="table table-striped">
+		  <tbody>
+		  
+		  <tr>
+		    <td>
+		      <span style="padding-top: 3px;">Column B(m):</span>
+		    </td>
+		    <td>
+		      <input type="number" class="text-right" [ngModel]="colB | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="colB = $event"/>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <span style="padding-top: 3px;">Column H(m):</span>
+		    </td>
+		    <td>
+		      <input type="number" class="text-right" [ngModel]="colH | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="colH = $event" />
+		    </td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div>
+</div>
+<div style="margin-bottom: 3em;">
+	<input style="float: right; margin-right: 5px;" type="button" value="Generate Diagram" class="btn btn-sm btn-primary" (click)="generateDiagram();"/>
+</div>
+<div class="row">
+	<div class="col-sm-9">
+		<table class="table table-striped">
+			<thead>
+			    <tr>
+			    	<th colspan="1" style="text-align: center;"></th>
+				    <th colspan="2" style="text-align: center;">Size of Beams</th>
+				    <th colspan="2" style="text-align: center;">Size of Columns</th>
+				</tr>
+				<tr>
+			    	<th colspan="1" style="text-align: center;"></th>
+				    <th colspan="1" style="text-align: center;">B (m)</th>
+				    <th colspan="1" style="text-align: center;">H (m)</th>
+				    <th colspan="1" style="text-align: center;">B (m)</th>
+				    <th colspan="1" style="text-align: center;">H (m)</th>
+				</tr>
+			</thead>
+		  <tbody>
+		  <tr *ngFor="let sob of sobArr; let first = first; let i = index;">
+		    <td>
+		      <span *ngIf="first" class="text-center" style="padding-top: 3px;">Roof Level</span>
+		      <span *ngIf="!first" class="text-center" style="padding-top: 3px;">Floor #{{sobArr[i].level+1}}</span>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 300;"><input type="text" style="text-align: right;" [ngModel]="sobArr[i].beamB | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="sobArr[i].beamB = $event" class="center-input"/></p>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 300;"><input type="text" style="text-align: right;" [ngModel]="sobArr[i].beamH | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="sobArr[i].beamH = $event" class="center-input"/></p>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 300;"><input type="text" style="text-align: right;" [ngModel]="socArr[i].colB | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="socArr[i].colB = $event" class="center-input"/></p>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 300;"><input type="text" style="text-align: right;" [ngModel]="socArr[i].colH | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="socArr[i].colH = $event" class="center-input"/></p>
+		    </td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div>
+	<div class="col-sm-3">
+		<table class="table table-striped">
+			<thead>
+			    <tr>
+				    <th colspan="2" style="text-align: center;">Storey Height</th>
+				</tr>
+				<tr>
+				    <th colspan="2" style="text-align: center;">-------------</th>
+				</tr>
+			</thead>
+		  <tbody>
+		  <tr *ngFor="let sto of stoHeightArr; let i = index;">
+		    <td>
+		      <span *ngIf="sto.floor==1">Ground Floor</span>
+		      <span *ngIf="sto.floor!=1">Floor #{{ sto.floor }}</span>
+		    </td>
+		    <td>
+		      <!-- <p class="text-center" style="font-weight: 300;">{{ sto.height | number:'1.2-2' }}</p> -->
+		      <p class="text-center" style="font-weight: 300;"><input type="text" style="text-align: right;" [ngModel]="stoHeightArr[i].height | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="stoHeightArr[i].height = $event" class="center-input"/></p>
+		    </td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div>
+</div>
+<hr/>
+<div class="row" style="margin-bottom: 5px;">
+	<div class="col-sm" style="text-align: center !important; width: 100%; display: flex; justify-content: center;">
+		<table>
+			<thead>
+			    <tr>
+				    <th [attr.colspan]="nColumn" style="text-align: center;"><fa name="arrow-left"></fa>&nbsp;&nbsp;&nbsp;&nbsp;Span Length&nbsp;&nbsp;&nbsp;&nbsp;<fa name="arrow-right"></fa></th>
+				</tr>
+			</thead>
+		  	<tbody>
+		 	 <tr>
+		   		 <td style="padding: 0 !important;" *ngFor="let cs of columnS; let i = index; trackBy:trackByFn"><input style="width: 100px; padding: 0 !important; padding-right: 5px !important; text-align: right;" type="text" [ngModel]="columnS[i].width | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="columnS[i].width = $event" class="center-input"/></td>
+		  	</tr>
+		  	</tbody>
+		</table>
+		
+	</div>
+</div>
+<div class="row" style="padding-bottom: 2em;">
+	<div class="col-sm-2">
+		<div *ngFor="let wlk of windLKN; let i = index; trackBy:trackByFn" style="position: relative; text-align:right; padding-right: 5px; height: 100px;">
+			<textarea style="width: 100px; height: 100px; resize: none;" type="text" [ngModel]="windLKN[i].wKN | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="windLKN[i].wKN = $event" class="left-input"></textarea>
+			<span class="label-top-outside" style="z-index: 9999;"><fa name="arrow-right"></fa></span>
+		</div>
+	</div>
+	<div class="col-sm" style="text-align: center; border-left: 1px solid green; border-right: 1px solid green;">
+		<div *ngFor="let spec of (dSpec | slice:dSpec.length-(dSpec.length-1)); let first = first; let x = index; let bottom = last;" style=";width: 100%;">
+			<app-box *ngFor="let label of spec.slice(0,spec.length-1); let last = last; let i = index;" [isBottom]="bottom" [labelTopEnd]="first&&last?dSpec[0][spec.length-1]:''" [labelEnd]="last?dSpec[x+1][spec.length-1]:''" [labelTop]="first?dSpec[0][i]:''" [label]="label" [isTop]="first" [isEnd]="last"></app-box>
+		</div>
+	</div>
+	<div class="col-sm-2">
+		<div *ngFor="let wrk of windRKN; let i = index; trackBy:trackByFn" style="position: relative; height: 100px;">
+			<textarea style="width: 100px; height: 100px; resize: none;" type="text" [ngModel]="windRKN[i].wKN | number:'1.2-2'" [ngModelOptions]="{updateOn:'blur'}" (ngModelChange)="windRKN[i].wKN = $event" class="left-input"></textarea>
+			<span class="label-top-outside" style="z-index: 9999;"><fa name="arrow-right"></fa></span>
+		</div>
+	</div>
+</div>
+<div style="margin-bottom: 3em;">
+	<input style="float: right;" type="button" value="Re-Calculate" class="btn btn-sm btn-primary" (click)="compute();"/>
+</div>
+<hr/>
+<div class="row" style="padding:0px; padding-left: 15px; padding-right: 15px; margin-bottom: 5px;">
+	<h4 class="text-center" style="width: 100%; background-color: #3f893f5c; padding: 10px; margin: 0px; border-bottom: 1px solid black; border-top: 1px solid black;">Computation for Stiffness Factor</h4>
+</div>
+<div class="row">
+	<div class="col-sm-3">
+		<table class="table table-striped">
+			<thead>
+			    <tr>
+			    	<th style="text-align: center;"></th>
+				    <th style="text-align: center;">k</th>
+				</tr>
+			</thead>
+		  <tbody>
+		  <tr *ngFor="let ss of stoStiffs; let i = index;">
+		    <td>
+		      <span *ngIf="ss.level==1">Ground Floor</span>
+		      <span *ngIf="ss.level!=1">Floor #{{ ss.level }}</span>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 500; font-style: italic; color: red;">{{ stoStiffs[i].k | number:'1.2-2' }}</p>
+		    </td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div>
+	<div class="col-sm-9">
+		<table class="table table-striped" *ngFor="let colS of colStiffs; let i = index; let first = first;">
+			<thead>
+			    <tr>
+			    	<th colspan="2" style="text-align: center;"></th>
+				    <th style="text-align: center;" *ngFor="let col of colS">Span #{{col.span}}</th>
+				</tr>
+			</thead>
+			<tbody>
+			  <tr>
+			  	<td *ngIf="first" rowspan="4" style="vertical-align: middle; transform: rotate(270deg); font-weight: 600; width: 100px; color: green; text-align: center;">
+			  		Roof Level
+			  	</td>
+			  	<td *ngIf="!first" rowspan="4" style="vertical-align: middle; transform: rotate(270deg); font-weight: 600; width: 100px; color: green; text-align: center;">
+			  		Floor #{{colStiffs[i][0].level}}
+			  	</td>
+			  	
+			  	
+			    <td>
+			      <p style="font-weight: 600; text-align: right;">Length</p>
+			    </td>
+			    <td *ngFor="let col of colS">
+			      <p class="text-center" style="font-weight: 300; font-style: italic;">{{ col.l | number:'1.2-2' }}</p>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td>
+			      <p style="font-weight: 600; text-align: right;">Beam (B)</p>
+			    </td>
+			    <td *ngFor="let col of colS">
+			      <p class="text-center" style="font-weight: 300; font-style: italic;">{{ col.beamB | number:'1.2-2' }}</p>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td>
+			      <p style="font-weight: 600; text-align: right;">Beam (H)</p>
+			    </td>
+			    <td *ngFor="let col of colS">
+			      <p class="text-center" style="font-weight: 300; font-style: italic;">{{ col.beamH | number:'1.2-2' }}</p>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td>
+			      <p style="font-weight: 600; text-align: right;">k</p>
+			    </td>
+			    <td *ngFor="let col of colS">
+			      <p class="text-center" style="font-weight: 500; font-style: italic; color: red;">{{ col.k | number:'1.2-2' }}</p>
+			    </td>
+			  </tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<hr/>
+<div class="row">
+	<div class="col-sm-6">
+		<table class="table table-striped">
+		    <tbody *ngFor="let gfa of gfArr; let first = first;">
+		  	  	<br/>
+		  	  	<tr>
+		  	  		<td *ngIf="first" colspan="9" style="vertical-align: middle; text-align: center;  font-weight: 600; color: green; padding: 5px;">For Ground Floor</td>
+		  	  		<td *ngIf="!first" colspan="9" style="vertical-align: middle; text-align: center;  font-weight: 600; color: green; padding: 5px;">For Floor #{{ gfa[0].level }}</td>
+		  	  	</tr>
+		  	  	<tr>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Girder Factor</th>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Distribution of Girder Factor</th>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Girder Moment Factor</th>
+				</tr>
+				<tr *ngFor="let gf of gfa">
+				  	<td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Gf</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400;">{{gf.col}}</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ gf.gf | number:'1.4-4' }}</p>
+				    </td>
+
+				    <!-- dgf -->
+				    <td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Gf</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400;">{{gf.col}}</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ gf.dgf | number:'1.4-4' }}</p>
+				    </td>
+
+				    <!-- gmf -->
+				    <td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Gf</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400;">{{gf.col}}</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ gf.gmf | number:'1.0-0' }}</p>
+				    </td>
+				</tr>
+		    </tbody>
+		</table>
+	</div>
+	<div class="col-sm-6">
+		<table class="table table-striped">
+			<tbody *ngFor="let cfa of cfArr; let first = first; let i = index;">
+		  	  	<br/>
+		  	  	<tr>
+		  	  		<td *ngIf="first" colspan="9" style="vertical-align: middle; text-align: center;  font-weight: 600; color: green; padding: 5px;">For Ground Floor</td>
+		  	  		<td *ngIf="!first" colspan="9" style="vertical-align: middle; text-align: center;  font-weight: 600; color: green; padding: 5px;">For Floor #{{ cfa[0].level }}</td>
+		  	  	</tr>
+		  	  	<tr>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Column Factor</th>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Distribution of Column Factor</th>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Column Moment Factor</th>
+				</tr>
+				<tr *ngFor="let cf of cfa">
+				  	<td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Cf</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400;">{{cf.col}}</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ cf.cf | number:'1.4-4' }}</p>
+				    </td>
+
+				    <!-- dgf -->
+				    <td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Cf</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400;">{{cf.col}}</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ cf.dcf | number:'1.4-4' }}</p>
+				    </td>
+
+				    <!-- gmf -->
+				    <td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Cf</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400;">{{cf.col}}</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ cf.cmf | number:'1.4-4' }}</p>
+				    </td>
+				</tr>
+				<tr>
+					<td *ngIf="cmfSubArr[i].level == cfArr[i][0].level" colspan="9" style="padding-right: 20px;">
+						<p class="text-right" style="font-weight: 500; font-style: italic; color: red;">∑ {{ cmfSubArr[i].cfs }}</p> <!--  | number:'1.4-4' -->
+					</td>
+				</tr>
+		    </tbody>
+		</table>
+	</div>
+	<!-- <div class="col-sm-2">
+		<table class="table table-striped">
+			<thead>
+			    <tr>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Distribution of Column Factor</th>
+				</tr>
+			</thead>
+		  <tbody>
+		  <tr>
+		  	<td>
+		      <p class="text-center" style="font-weight: 600; font-style: italic;">Gf</p>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 400;">2A-2B</p>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 400; font-style: italic;">{{ 0 | number:'1.2-2' }}</p>
+		    </td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div>
+	<div class="col-sm-2">
+		<table class="table table-striped">
+			<thead>
+			    <tr>
+			    	<th colspan="3" style="text-align: center; font-size: 13px;">Column Moment Factor</th>
+				</tr>
+			</thead>
+		  <tbody>
+		  <tr *ngFor="let gfa of gfArr">
+		  	<td>
+		      <p class="text-center" style="font-weight: 600; font-style: italic;">Gf</p>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 400;">{{gfa.col}}</p>
+		    </td>
+		    <td>
+		      <p class="text-center" style="font-weight: 400; font-style: italic;">{{ 0 | number:'1.2-2' }}</p>
+		    </td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div> -->
+</div>
+<div class="row" style="padding:0px; padding-left: 15px; padding-right: 15px; margin-bottom: 5px;">
+	<h4 class="text-center" style="width: 100%; background-color: #fb676773; padding: 10px; margin: 0px; border-bottom: 1px solid black; border-top: 1px solid black;">Computation of Final Moment</h4>
+</div>
+<div class="row" style="padding-left: 15px; padding-right: 15px;">
+	<div class="col-sm-4" *ngFor="let cfm of cfmArr; let x = index;">
+		<div class="col-sm" style="border: 1px solid black; padding: 5px 15px;">
+			<table style="width: 100%;">
+				<thead>
+					<tr>
+						<th colspan="2" class="text-center"><p style="font-weight: 600;">For Floor #{{floorSpecs[x].level}}</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><p class="text-right">Floor Height</p></td>
+						<td><p class="text-right" style="font-weight: 500; font-style: italic; color: black;">{{ floorSpecs[x].height }} (mm)</p></td>
+					</tr>
+					<tr>
+						<td><p class="text-right">Force</p></td>
+						<td><p class="text-right" style="font-weight: 500; font-style: italic; color: black;">{{ floorSpecs[x].wKN }} kN</p></td>
+					</tr>
+					<tr>
+						<td><p class="text-right">∑CMF</p></td>
+						<td><p class="text-right" style="font-weight: 500; font-style: italic; color: black;">{{ floorSpecs[x].scmf }}</p></td>
+					</tr>
+					<tr>
+						<td><p class="text-right" style="font-weight: 500; color: black;">N</p></td>
+						<td><p class="text-right" style="font-weight: 500; font-style: italic; color: black;">{{ floorSpecs[x].n }}</p></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<table class="table table-striped col-sm">
+			<thead>
+				<tr>
+					<th colspan="3"><p class="text-center">Column Moment</p></th>
+					<th colspan="3"><p class="text-center">Girder Moment</p></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let cf of cfm; let y = index;">
+					<td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Cf</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400;">{{ cf.col }}</p>
+				    </td>
+				    <td>
+				      <p class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ cf.fcm | number:'1.3-3' }}</p>
+				    </td>
+
+				    <!-- Girder Moment -->
+				    <td>
+				      <p class="text-center" style="font-weight: 600; font-style: italic;">Gf</p>
+				    </td>
+				    <td>
+				      <p *ngIf="gfmArr[x][y] != undefined" class="text-center" style="font-weight: 400;">{{ gfmArr[x][y].col }}</p>
+				    </td>
+				    <td>
+				      <p *ngIf="gfmArr[x][y] != undefined" class="text-center" style="font-weight: 400; font-style: italic; color: red;">{{ gfmArr[x][y].gmf | number:'1.3-3' }}</p>
+				    </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="row" style="padding:0px; padding-left: 15px; padding-right: 15px; margin-bottom: 5px;">
+	<span class="text-center" style="width: 100%; background-color: #fb676773; padding: 2px; margin: 0px; border-bottom: 1px solid black; border-top: 1px solid black; font-size: 12px;">- end of computation -</span>
+</div>

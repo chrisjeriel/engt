@@ -1,0 +1,10 @@
+<div class="single-box" [ngClass]="isBottom ? 'single-box-btm': ''">
+	<span *ngIf="isTop" class="label-top">{{ labelTop }}</span>
+	<span *ngIf="isEnd && isTop" class="label-top-outside">{{ labelTopEnd }}</span>
+	<span *ngIf="isEnd" class="label-btm-outside">{{ labelEnd }}</span>
+	<span>&nbsp;</span>
+	<span class="label-btm">{{ label }}</span>
+	<img *ngIf="isBottom" src="app/_resources/bldg-foot.png" style="width: 20px; position: absolute; left: -10px; bottom: -12px;" />
+	<img *ngIf="isBottom&&isEnd" src="app/_resources/bldg-foot.png" style="width: 20px; position: absolute; right: -10px; bottom: -12px;" />
+</div>
+

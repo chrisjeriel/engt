@@ -1,0 +1,23 @@
+.single-box {
+	height: 50px;
+	width: 100px;
+	display: table-cell;
+	position: relative;
+}
+
+span.left {
+	margin: 0;
+	font-weight: 500;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+.center-input {
+	border:1px solid gray; 
+	text-align: right;
+	padding: 0px 5px; 
+	width: 50%;
+	margin-right: 2px;
+}

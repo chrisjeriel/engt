@@ -1,0 +1,37 @@
+.single-box {
+	border: 1px solid black;
+	height: 100px;
+	width: 100px;
+	display: table-cell;
+	position: relative;
+}
+
+.single-box-btm {
+	border-bottom: 0px !important;
+}
+
+span.label-btm {
+	position: absolute;
+    bottom: 0;
+    left: 5px;
+    font-weight: 600;
+}
+
+span.label-top {
+	position: absolute;
+    left: 5px;
+    font-weight: 600;
+}
+
+span.label-top-outside {
+	position: absolute;
+    left: 105px;
+    font-weight: 600;
+}
+
+span.label-btm-outside {
+	position: absolute;
+	bottom: 0;
+    left: 105px;
+    font-weight: 600;
+}

@@ -1,0 +1,89 @@
+.single-box-right {
+  border: 1px solid green;
+  border-radius: 0px 50px 50px 0px;
+  height: 100px;
+  position: relative;
+  border-right: 0px;
+  border-left: 0px;
+}
+
+span.right {
+	margin: 0;
+	font-weight: 500;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.single-box-left {
+/*  border: 1px solid green;*/
+  height: 100px;
+  position: relative;
+}
+
+span.left {
+	margin: 0;
+	font-weight: 500;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.left-input {
+	border:1px solid gray; 
+	text-align: right;
+	padding: 0px 5px; 
+	width: 30%;
+	margin-right: 2px;
+}
+
+.center-input {
+	border:1px solid gray; 
+	text-align: right;
+	padding: 0px 5px; 
+	width: 50%;
+	margin-right: 2px;
+}
+
+.single-box {
+	border-bottom: 1px solid green;
+	height: 100px;
+	width: 100px;
+	display: table-cell;
+	position: relative;
+}
+
+.btn-diagram {
+	margin-left: 5px;
+    height: 27px;
+    margin-top: -4px;
+    padding: 10px;
+    line-height: 1px;
+    border-radius: 2px;
+}
+
+.spec-input {
+	border:1px solid gray; 
+	text-align: right;
+	padding: 0px 5px; 
+	width: 30%;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+
+td span {
+	float: right;
+	font-weight: 600;
+}
+
+.td-lg {
+	text-align: center; 
+	border:1px solid #f1f1f1; 
+	vertical-align: middle; 
+	font-weight: 500;
+	text-align: center;
+}
